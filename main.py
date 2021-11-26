@@ -10,7 +10,6 @@ import plotly.figure_factory as ff
 
 app = dash.Dash(__name__)
 
-
 graph = bittensor.metagraph( subtensor = bittensor.subtensor( network='local' ) ).load()
 
 df = pd.DataFrame(columns=['uid', 'active', 'stake','rank','trust', 'consensus', 'incentive', 'dividends', 'emission'], index=graph.uids.tolist())
@@ -29,11 +28,15 @@ fig7 = go.Figure(data=[go.Table(
 ])
 
 fig1 = px.scatter(df, x="uid", y="stake", color="active")
+fig11 = px.histogram(df, x="uid", y="stake", color="active")
 fig2 = px.scatter(df, x="uid", y="rank", color="active" )
 fig3 = px.scatter(df, x="uid", y="trust", color="active" )
 fig4 = px.scatter(df, x="uid", y="consensus", color="active" )
 fig5 = px.scatter(df, x="uid", y="incentive", color="active" )
 fig6 = px.scatter(df, x="uid", y="dividends", color="active" )
+
+tvc = px.scatter(df, x="trust", y="consensus", marginal_x="histogram", marginal_y="rug")
+ivc = px.scatter(df, x="incentive", y="consensus", marginal_x="histogram", marginal_y="rug")
 
 WT = go.Figure(data=go.Heatmap( z=(graph.W > 0).int().tolist() ))
 BT = go.Figure(data=go.Heatmap( z=(graph.B > 0).int().tolist() ))
@@ -49,9 +52,12 @@ app.layout = html.Div(children=[
     html.H1(children='Bittensor'),
     dcc.Markdown(children=markdown_text),
     dcc.Graph(id='stake', figure=fig1),
+    dcc.Graph(id='stake_hist', figure=fig11),
     dcc.Graph(id='ranks', figure=fig2),
     dcc.Graph(id='trust', figure=fig3),
     dcc.Graph(id='consensus', figure=fig4),
+    dcc.Graph(id='trust_by_consensus', figure=tvc),
+    dcc.Graph(id='incentive_by_consensus', figure=ivc),
     dcc.Graph(id='incentive', figure=fig5),
     dcc.Graph(id='dividends', figure=fig6),
     dcc.Graph(id='weights', figure=WT),

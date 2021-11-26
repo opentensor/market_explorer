@@ -12,10 +12,28 @@ app = dash.Dash(__name__)
 
 graph = bittensor.metagraph().load_from_path( os.path.expanduser('~/nakamoto-latest') )
 
-df = pd.DataFrame(columns=['uid', 'active', 'stake','rank','trust', 'consensus', 'incentive', 'dividends', 'emission'], index=graph.uids.tolist())
+query_df = pd.read_json(os.path.expanduser('~/query-latest.json') ).T
+df = pd.DataFrame(columns=['uid', 'active', 'stake','rank','trust', 'consensus', 'incentive', 'dividends', 'emission', 'code', 'time', 'success'], index=graph.uids.tolist())
 for uid in graph.uids.tolist():
-    df.loc[uid] = pd.Series({'uid':uid, 'active': graph.active[uid].item(), 'stake':graph.S[uid].item(), 'rank':graph.R[uid].item(), 'trust':graph.T[uid].item(), 'consensus':graph.C[uid].item(), 'incentive':graph.I[uid].item(), 'dividends':graph.D[uid].item(), 'emission':graph.E[uid].item()})
+    df.loc[uid] = pd.Series({
+    'uid':uid, 
+    'active': graph.active[uid].item(), 
+    'stake':graph.S[uid].item(), 
+    'rank':graph.R[uid].item(), 
+    'trust':graph.T[uid].item(), 
+    'consensus':graph.C[uid].item(), 
+    'incentive':graph.I[uid].item(), 
+    'dividends':graph.D[uid].item(), 
+    'emission':graph.E[uid].item(),
+    'code': query_df.code[uid],
+    'time': query_df.time[uid],
+    'success': query_df.code[uid] == 1,
+})
 
+query_suc = df.loc[df['success'] == True]
+query_fig = px.scatter(query_suc, x="uid", y="time", color="success")
+query_hist = px.histogram(query_suc, x="time", color="success")
+query_to_incentive = px.scatter(query_suc, x="time", y="incentive")
 
 fig7 = go.Figure(data=[go.Table(
     header=dict(values=list(df.columns),
@@ -27,7 +45,7 @@ fig7 = go.Figure(data=[go.Table(
 ])
 
 fig1 = px.scatter(df, x="uid", y="stake", color="active")
-fig11 = px.histogram(df, x="uid", y="stake", color="active")
+fig11 = px.histogram(df, x="stake", color="active")
 fig2 = px.scatter(df, x="uid", y="rank", color="active" )
 fig3 = px.scatter(df, x="uid", y="trust", color="active" )
 fig4 = px.scatter(df, x="uid", y="consensus", color="active" )
@@ -43,11 +61,6 @@ BT = go.Figure(data=go.Heatmap( z=(graph.B > 0).int().tolist() ))
 WT.update_layout(autosize=False, width=2000,  height=2000)
 BT.update_layout(autosize=False, width=2000,  height=2000)
 
-query_df = pd.read_json(os.path.expanduser('~/query-latest.json') )
-query_df = query_df.T
-query_fig = px.scatter(query_df, x="uid", y="time", color="code")
-query_hist = px.histogram(query_df, x="uid", y="time", color="code")
-
 markdown_text = '''
 ### Nakamoto network explorer
 '''
@@ -57,6 +70,7 @@ app.layout = html.Div(children=[
     dcc.Markdown(children=markdown_text),
     dcc.Graph(id='query_fig', figure=query_fig),
     dcc.Graph(id='query_hist', figure=query_hist),
+    dcc.Graph(id='query time to incentive', figure=query_to_incentive),
     dcc.Graph(id='stake', figure=fig1),
     dcc.Graph(id='stake_hist', figure=fig11),
     dcc.Graph(id='ranks', figure=fig2),

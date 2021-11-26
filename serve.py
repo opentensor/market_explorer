@@ -43,8 +43,8 @@ BT = go.Figure(data=go.Heatmap( z=(graph.B > 0).int().tolist() ))
 WT.update_layout(autosize=False, width=2000,  height=2000)
 BT.update_layout(autosize=False, width=2000,  height=2000)
 
-
 query_df = pd.read_json(os.path.expanduser('~/query-latest.json') )
+query_df = query_df.T
 query_fig = px.scatter(query_df, x="uid", y="time", color="code")
 query_hist = px.histogram(query_df, x="uid", y="time", color="code")
 
@@ -55,8 +55,8 @@ markdown_text = '''
 app.layout = html.Div(children=[
     html.H1(children='Bittensor'),
     dcc.Markdown(children=markdown_text),
-    dcc.Graph(id='query_fig', figure=fig1),
-    dcc.Graph(id='query_hist', figure=fig1),
+    dcc.Graph(id='query_fig', figure=query_fig),
+    dcc.Graph(id='query_hist', figure=query_hist),
     dcc.Graph(id='stake', figure=fig1),
     dcc.Graph(id='stake_hist', figure=fig11),
     dcc.Graph(id='ranks', figure=fig2),

@@ -4,8 +4,9 @@ from concurrent.futures import ThreadPoolExecutor
 
 sub = bittensor.subtensor( network = 'local' )
 graph = bittensor.metagraph( subtensor = sub )
+block = sub.get_current_block()
 graph.sync()
-graph.save_to_path( path = os.path.expanduser('~/'), filename = 'nakamoto-{}'.format( sub.get_current_block() ) )
+graph.save_to_path( path = os.path.expanduser('~/'), filename = 'nakamoto-{}'.format( block ) )
 graph.save_to_path( path = os.path.expanduser('~/'), filename = 'nakamoto-latest')
 
 bittensor.logging( debug = True )
@@ -34,5 +35,5 @@ import json
 with open( os.path.expanduser('~/query-latest.json'), 'w') as f:
     json.dump(json_data, f)
 
-with open( os.path.expanduser('~/query-{}.json'.format( sub.get_current_block() )), 'w') as f:
+with open( os.path.expanduser('~/query-{}.json'.format( block )), 'w') as f:
     json.dump(json_data, f)

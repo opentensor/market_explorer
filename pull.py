@@ -1,5 +1,6 @@
 import bittensor
 import os
+from concurrent.futures import ThreadPoolExecutor
 
 sub = bittensor.subtensor( network = 'local' )
 graph = bittensor.metagraph( subtensor = sub )
@@ -8,12 +9,25 @@ graph.save_to_path( path = os.path.expanduser('~/'), filename = 'nakamoto-{}'.fo
 graph.save_to_path( path = os.path.expanduser('~/'), filename = 'nakamoto-latest')
 
 bittensor.logging( debug = True )
-wallet = bittensor.wallet()
+wallet = bittensor.wallet( name = 'const', hotkey = 'Nero')
 dend = bittensor.dendrite( wallet = wallet )
-resp, codes, times = dend.forward_text( endpoints = graph.endpoints, inputs = "hello world" )
+
+resps = []
+codes = []
+times = []
+
+def make_query( end ):
+    resp, code, time = dend.forward_text( endpoints = end, inputs = "hello world" )
+    resps.append( resp[0] ) 
+    codes.append( code.item())
+    times.append( time.item() )
+
+with ThreadPoolExecutor(max_workers=100) as executor:
+    for end in graph.endpoints:
+        executor.submit(make_query, end)
 
 json_data = {}
-for e, r, c, t in list(zip( graph.endpoint_objs, resp, codes.tolist(), times.tolist() )):
+for e, r, c, t in list(zip( graph.endpoint_objs, resps, codes, times)):
     json_data[e.uid] = {'uid': e.uid, 'code': c, 'time': t}
 
 import json

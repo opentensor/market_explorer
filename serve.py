@@ -33,9 +33,9 @@ for uid in graph.uids.tolist():
     'incentive':graph.I[uid].item(), 
     'dividends':graph.D[uid].item(), 
     'emission':graph.E[uid].item(),
-    'code': query_df.code[uid],
-    'time': query_df.time[uid],
-    'success': query_df.code[uid] == 1,
+    'code':c,
+    'time': t,
+    'success': s,
 })
 
 query_suc = df.loc[df['success'] == True]

@@ -15,6 +15,14 @@ graph = bittensor.metagraph().load_from_path( os.path.expanduser('~/nakamoto-lat
 query_df = pd.read_json(os.path.expanduser('~/query-latest.json') ).T
 df = pd.DataFrame(columns=['uid', 'active', 'stake','rank','trust', 'consensus', 'incentive', 'dividends', 'emission', 'code', 'time', 'success'], index=graph.uids.tolist())
 for uid in graph.uids.tolist():
+    try:
+        c = query_df.code[uid]
+        t = query_df.time[uid]
+        s = query_df.code[uid] == 1
+    except:
+        c = 23
+        t = 12.0
+        s = False
     df.loc[uid] = pd.Series({
     'uid':uid, 
     'active': graph.active[uid].item(), 

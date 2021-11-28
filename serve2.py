@@ -43,7 +43,7 @@ def update_uid_to_incentive ( selected_block ):
         else:
             break
     filtered_df = df[ closest_index ]
-    fig = px.scatter( filtered_df, x="uid", y="incentive", template='plotly_dark', marginal_x="histogram",  marginal_y="histogram", title="Incentive @ block:{}".format( selected_block ), labels=dict(x="uid", y="incentive") )
+    fig = px.scatter( filtered_df, x="uid", y="incentive", template='plotly_dark', marginal_y="histogram", title="Incentive @ block:{}".format( selected_block ), labels=dict(x="uid", y="incentive") )
     fig.update_layout( transition_duration=500 )
     return fig
 

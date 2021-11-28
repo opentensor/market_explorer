@@ -5,7 +5,7 @@ from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import ProcessPoolExecutor
 
-n_processes = 5
+n_processes = 1
 n_threads = 1
 step_size = 10000
 

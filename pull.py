@@ -56,4 +56,5 @@ if __name__ == "__main__":
                 current_range = []
             current_range.append( block )
 
+    print ( 'ranges', all_ranges )
     run( all_ranges )

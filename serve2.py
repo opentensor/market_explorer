@@ -7,10 +7,8 @@ import plotly.express as px
 
 import pandas as pd
 
-df = pd.read_pickle( os.path.expanduser('~/data.pd') )
-
+df = pd.read_pickle( os.path.expanduser('~/data/all_blocks.pd') )
 app = dash.Dash(__name__)
-
 app.layout = html.Div(
     [
         dcc.Graph( id='uid_to_incentive') ,

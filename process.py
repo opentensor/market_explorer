@@ -4,12 +4,10 @@ import pandas as pd
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 
-files = os.listdir(os.path.expanduser('~'))
-
 frames = {}
 def load_graph_file( filename ):
     block = int(filename.split('-')[1])
-    graph = bittensor.metagraph().load_from_path( os.path.expanduser( '~/{}'.format(filename) ) )
+    graph = bittensor.metagraph().load_from_path( os.path.expanduser( '~/data/{}'.format(filename) ) )
     dataframe = pd.DataFrame(columns=['uid', 'active', 'stake','rank','trust', 'consensus', 'incentive', 'dividends', 'emission'], index=graph.uids.tolist())
     for uid in graph.uids.tolist():
         dataframe.loc[uid] = pd.Series({
@@ -25,10 +23,14 @@ def load_graph_file( filename ):
             })
         frames[block] = dataframe
 
+sub = bittensor.subtensor()
+all_files = os.listdir(os.path.expanduser('~/data'))
+block_range = [ block for block in range( 0, sub.get_current_block(), 1000 ) ]
 with ThreadPoolExecutor(max_workers=100) as executor:
-    for filename in tqdm(files):
-        if filename[:4] == 'naka':
-            executor.submit(load_graph_file, filename)
+    for block in tqdm( block_range ):
+        block_filename = 'nakamoto-{}'.block(block) 
+        if block_filename in all_files:
+            executor.submit( load_graph_file, block_filename )
 
 blocks = pd.Series([f for f in frames.values()], index=frames.keys())
-blocks.to_pickle(os.path.expanduser('~/data.pd')) 
+blocks.to_pickle(os.path.expanduser('~/data/all_blocks.pd')) 

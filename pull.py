@@ -14,18 +14,21 @@ def pull_graph_at_block( block ):
     while True:
         try:
             sub = bittensor.subtensor( network = 'nakamoto' )
-            graph = bittensor.metagraph( subtensor = sub )
-            graph.sync( block )
-            # 99% pulled
-            n_pulled = float(sum( [ 1 for hotkey in graph.hotkeys if hotkey != '' ]))
-            frac = n_pulled / graph.n.item() if graph.n.item() != 0 else 1
-            if frac > 0.99:
-                graph.save_to_path( path = os.path.expanduser('~/data/'), filename = 'nakamoto-{}'.format( block ) )
-                print ('finished pulling block: {}'.format( block ))
-                break
-            else:
-                print ('restarting pulling block: {} failed from frac: {} '.format( block, frac ))
-                continue
+            sub.connect()
+            for uid in range(100):
+                print( sub.neuron_for_uid( uid = uid, block = block ) )
+            # graph = bittensor.metagraph( subtensor = sub )
+            # graph.sync( block )
+            # # 99% pulled
+            # n_pulled = float(sum( [ 1 for hotkey in graph.hotkeys if hotkey != '' ]))
+            # frac = n_pulled / graph.n.item() if graph.n.item() != 0 else 1
+            # if frac > 0.99:
+            #     graph.save_to_path( path = os.path.expanduser('~/data/'), filename = 'nakamoto-{}'.format( block ) )
+            #     print ('finished pulling block: {}'.format( block ))
+            #     break
+            # else:
+            #     print ('restarting pulling block: {} failed from frac: {} '.format( block, frac ))
+            #     continue
         except Exception as e:
             print ('restarting pulling block: {} with error: {}'.format( block, e ))
             continue

@@ -34,7 +34,13 @@ app.layout = html.Div(
     Input('uid_to_incentive_slider', 'value')
 )
 def update_uid_to_incentive ( selected_block ):
-    filtered_df = df[ selected_block ]
+    closest_index = list(df.index)[0]
+    for val in list(df.index):
+        if val <= selected_block:
+            closest_index = val
+        else:
+            break
+    filtered_df = df[ closest_index ]
     fig = px.scatter( filtered_df, x="uid", y="incentive", template='plotly_dark')
     fig.update_layout( transition_duration=500 )
     return fig

@@ -26,7 +26,7 @@ def load_graph_file( filename ):
         frames[block] = dataframe
 
 with ThreadPoolExecutor(max_workers=100) as executor:
-    for filename in tqdm(files[:10]):
+    for filename in tqdm(files):
         if filename[:4] == 'naka':
             executor.submit(load_graph_file, filename)
 

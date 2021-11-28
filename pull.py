@@ -5,11 +5,20 @@ from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import ProcessPoolExecutor
 
+n_processes = 1
+n_threads = 5
+step_size = 10000
+
 def pull_graph_at_block( block ):
-    sub = bittensor.subtensor( network = 'nakamoto' )
-    graph = bittensor.metagraph( subtensor = sub )
-    graph.sync( block )
-    graph.save_to_path( path = os.path.expanduser('~/data/'), filename = 'nakamoto-{}'.format( block ) )
+    while True:
+        try:
+            sub = bittensor.subtensor( network = 'nakamoto' )
+            graph = bittensor.metagraph( subtensor = sub )
+            graph.sync( block )
+            graph.save_to_path( path = os.path.expanduser('~/data/'), filename = 'nakamoto-{}'.format( block ) )
+            break
+        except:
+            continue
 
 def multithread_pull_range( block_range ):
     with ThreadPoolExecutor( max_workers=10 ) as executor:
@@ -36,7 +45,7 @@ if __name__ == "__main__":
     all_ranges = []
     block_range_size = 5
     current_range = []
-    for block in range( 0, sub.get_current_block(), 1000 ):
+    for block in range( 0, sub.get_current_block(), step_size ):
         if block not in already_pulled_blocks:
             if len(current_range) == block_range_size:
                 all_ranges.append( current_range )

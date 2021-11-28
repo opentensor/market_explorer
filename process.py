@@ -28,7 +28,7 @@ all_files = os.listdir(os.path.expanduser('~/data'))
 block_range = [ block for block in range( 0, sub.get_current_block(), 1000 ) ]
 with ThreadPoolExecutor(max_workers=100) as executor:
     for block in tqdm( block_range ):
-        block_filename = 'nakamoto-{}'.block(block) 
+        block_filename = 'nakamoto-{}'.format( block ) 
         if block_filename in all_files:
             executor.submit( load_graph_file, block_filename )
 

@@ -39,7 +39,8 @@ def run( block_ranges ):
             executor.submit( multithread_pull_range, block_range )
 
 def run_linear( blocks ):
-    for block in tqdm( blocks) :
+    print (blocks)
+    for block in blocks:
         pull_graph_at_block( block )
 
 if __name__ == "__main__":

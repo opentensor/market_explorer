@@ -43,7 +43,7 @@ def update_uid_to_incentive ( selected_block ):
         else:
             break
     filtered_df = df[ closest_index ]
-    fig = px.scatter( filtered_df, x="uid", y="incentive", template='plotly_dark')
+    fig = px.scatter( filtered_df, x="uid", y="incentive", template='plotly_dark', marginal_x="histogram",  marginal_y="histogram", title="Incentive @ block:{}".format( selected_block ), labels=dict(x="uid", y="incentive") )
     fig.update_layout( transition_duration=500 )
     return fig
 
@@ -56,7 +56,7 @@ def update_incentive_over_time ( selected_uid ):
     y = [ block['incentive'][selected_uid] for block in df ]
     xx = [x for x, _ in sorted(zip(x, y))]
     yy = [y for _, y in sorted(zip(x, y))]
-    return px.line( x=xx, y=yy, template='plotly_dark')
+    return px.line( x=xx, y=yy, template='plotly_dark', markers=True, title="Incentive @ uid: {}".format( selected_uid ), labels=dict(x="block", y="incentive") )
 
 if __name__ == '__main__':
     app.run_server(host = '0.0.0.0', debug=True)

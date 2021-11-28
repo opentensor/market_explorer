@@ -10,6 +10,7 @@ n_threads = 1
 step_size = 10000
 
 def pull_graph_at_block( block ):
+    print ('pulling block: {}'.format( block ))
     while True:
         try:
             sub = bittensor.subtensor( network = 'nakamoto' )
@@ -18,10 +19,13 @@ def pull_graph_at_block( block ):
             # 99% pulled
             if sum( [ 1 for hotkey in graph.hotkeys if hotkey != '' ]) / graph.n.item() > 0.99:
                 graph.save_to_path( path = os.path.expanduser('~/data/'), filename = 'nakamoto-{}'.format( block ) )
+                print ('finished pulling block: {}'.format( block ))
                 break
             else:
+                print ('restarting pulling block: {}'.format( block ))
                 continue
         except:
+            print ('restarting pulling block: {}'.format( block ))
             continue
 
 def multithread_pull_range( block_range ):

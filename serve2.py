@@ -9,8 +9,13 @@ import pandas as pd
 
 df = pd.read_pickle( os.path.expanduser('~/data/all_blocks.pd') )
 app = dash.Dash(__name__)
+colors = {
+    'background': '#111111',
+    'text': '#7FDBFF'
+}
 app.layout = html.Div(
-    [
+    style = {'backgroundColor': colors['background']},
+    children = [
         dcc.Graph( id='uid_to_incentive') ,
         dcc.Slider(
             id='uid_to_incentive_slider',

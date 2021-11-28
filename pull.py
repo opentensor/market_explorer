@@ -5,8 +5,8 @@ from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import ProcessPoolExecutor
 
-n_processes = 1
-n_threads = 5
+n_processes = 5
+n_threads = 1
 step_size = 10000
 
 def pull_graph_at_block( block ):
@@ -15,8 +15,12 @@ def pull_graph_at_block( block ):
             sub = bittensor.subtensor( network = 'nakamoto' )
             graph = bittensor.metagraph( subtensor = sub )
             graph.sync( block )
-            graph.save_to_path( path = os.path.expanduser('~/data/'), filename = 'nakamoto-{}'.format( block ) )
-            break
+            # 99% pulled
+            if sum( [ 1 for hotkey in graph.hotkeys if hotkey != '' ]) / graph.n.item() > 0.99:
+                graph.save_to_path( path = os.path.expanduser('~/data/'), filename = 'nakamoto-{}'.format( block ) )
+                break
+            else:
+                continue
         except:
             continue
 

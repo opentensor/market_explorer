@@ -8,7 +8,7 @@ from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import ProcessPoolExecutor
 
-n_thread = 10
+n_thread = 100
 n_proc = 5
 block_range_size = 5
 step_size = 10000

@@ -9,7 +9,7 @@ def pull_graph_at_block( block ):
     sub = bittensor.subtensor( network = 'nakamoto' )
     graph = bittensor.metagraph( subtensor = sub )
     graph.sync( block )
-    graph.save_to_path( path = os.path.expanduser('~/'), filename = 'nakamoto-{}'.format( block ) )
+    graph.save_to_path( path = os.path.expanduser('~/data/'), filename = 'nakamoto-{}'.format( block ) )
 
 def multithread_pull_range( block_range ):
     with ThreadPoolExecutor( max_workers=10 ) as executor:
@@ -23,7 +23,7 @@ def run( block_ranges ):
 
 if __name__ == "__main__":
     # Get already pulled metagraphs.
-    all_files = os.listdir(os.path.expanduser('~'))
+    all_files = os.listdir(os.path.expanduser('~/data/'))
     already_pulled_blocks = set()
     for file in all_files:
         if file[:4] == 'naka':

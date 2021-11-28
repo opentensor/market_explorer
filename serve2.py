@@ -9,12 +9,9 @@ import pandas as pd
 
 df = pd.read_pickle( os.path.expanduser('~/data/all_blocks.pd') )
 app = dash.Dash(__name__)
-colors = {
-    'background': '#111111',
-    'text': '#7FDBFF'
-}
+
 app.layout = html.Div(
-    style = {'backgroundColor': colors['background']},
+    style = {'backgroundColor': 'black'},
     children = [
         dcc.Graph( id='uid_to_incentive') ,
         dcc.Slider(
@@ -27,10 +24,10 @@ app.layout = html.Div(
         dcc.Dropdown(
             id = 'uid_dropdown',
             options = [ {'label':str(int(u)), 'value': int(u)} for u in list(df[df.index.max()].uid) ],
-            value = 0
+            value = 0,
+            style = {'backgroundColor': 'black'}
         ),
         dcc.Graph(id='incentive_over_time'),
-
     ]
 )
 

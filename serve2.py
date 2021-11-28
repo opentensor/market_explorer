@@ -17,13 +17,12 @@ app.layout = html.Div(
             min = df.index.min(),
             max = df.index.max(),
             value = df.index.min(),
-            marks = { str(block): str(block) for block in list(df.index) },
-            step=None
+            step = 1000
         ),
         dcc.Dropdown(
-            id='uid_dropdown',
-            options=[ {'label':str(int(u)), 'value': int(u)} for u in list(df[df.index.max()].uid) ],
-            value='value'
+            id = 'uid_dropdown',
+            options = [ {'label':str(int(u)), 'value': int(u)} for u in list(df[df.index.max()].uid) ],
+            value = 0
         ),
         dcc.Graph(id='incentive_over_time'),
 

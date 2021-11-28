@@ -27,10 +27,10 @@ def neuron_for_block_and_uid( block, uid ):
         try:
             sub = bittensor.subtensor( network = 'nakamoto' )
             neuron = sub.neuron_for_uid( uid = uid, block = block )
-            print (colored('o: {}-{}'.format(block, uid), 'green'))
+            print (colored('o: {}-{} -- {}'.format(block, uid, sub.chain_endpoint ), 'green'))
             return neuron
         except Exception as e:
-            print (colored('x: {}-{}'.format(block, uid), 'red'))
+            print (colored('x: {}-{} -- {}'.format(block, uid, sub.chain_endpoint), 'red'))
 
 def pull_neurons_at_block( block ):
     if block not in neurons:

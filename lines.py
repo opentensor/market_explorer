@@ -27,7 +27,7 @@ app.layout = html.Div(
             options=[ {'label':str(int(u)), 'value': int(u)} for u in list(df[df.index.max()].uid) ],
             value='value'
         ),
-        dcc.Graph(id='stake_over_time'),
+        dcc.Graph(id='incentive_over_time'),
 
     ]
 )
@@ -43,12 +43,12 @@ def update_uid_to_incentive ( selected_block ):
     return fig
 
 @app.callback(
-    Output('stake_over_time', 'figure'),
+    Output('incentive_over_time', 'figure'),
     Input('uid_dropdown', 'value')
 )
-def update_stake_over_time ( selected_uid ):
+def update_incentive_over_time ( selected_uid ):
     x = list(df.index)
-    y = [ block['stake'][selected_uid] for block in df ]
+    y = [ block['incentive'][selected_uid] for block in df ]
     xx = [x for x, _ in sorted(zip(x, y))]
     yy = [y for _, y in sorted(zip(x, y))]
     return px.line( x=xx, y=yy, template='plotly_dark')

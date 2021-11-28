@@ -34,6 +34,10 @@ def run( block_ranges ):
         for block_range in tqdm( block_ranges ):
             executor.submit( multithread_pull_range, block_range )
 
+def run_linear( blocks ):
+    for block in tqdm( blocks) :
+        pull_graph_at_block( block )
+
 if __name__ == "__main__":
     # Get already pulled metagraphs.
     all_files = os.listdir(os.path.expanduser('~/data/'))
@@ -56,5 +60,7 @@ if __name__ == "__main__":
                 current_range = []
             current_range.append( block )
 
-    print ( 'ranges', all_ranges )
-    run( all_ranges )
+    if n_threads == 1 and n_processes == 1:
+        run_linear( sum(all_ranges, []) )
+    else:
+        run( all_ranges )

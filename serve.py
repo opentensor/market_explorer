@@ -110,6 +110,7 @@ def update_incentive_over_time ( selected_uids ):
     if type(selected_uids) != list:
         selected_uids = [selected_uids]
 
+    fig = make_subplots(rows=3, cols=2)
     for uid in selected_uids:
         x = list(df.index)
         incentive = [ block['incentive'][uid] for block in df ]
@@ -130,15 +131,15 @@ def update_incentive_over_time ( selected_uids ):
         yy_dividends = [y for _, y in sorted(zip(x, dividends))]
         # yy_emission = [y for _, y in sorted(zip(x, emission))]
 
-        fig = make_subplots(rows=3, cols=2)
         fig.add_trace(  go.Scatter ( x = blocks, y = yy_stake, name="stake-{}".format(uid)), row=1, col=1 )
         fig.add_trace(  go.Scatter ( x = blocks, y = yy_rank, name="rank".format(uid)), row=1, col=2 )
         fig.add_trace(  go.Scatter ( x = blocks, y = yy_trust, name="trust".format(uid)), row=2, col=1 )
         fig.add_trace(  go.Scatter ( x = blocks, y = yy_conensus, name="cosensus".format(uid)), row=2, col=2 )
         fig.add_trace(  go.Scatter ( x = blocks, y = yy_incentive, name="incentive".format(uid)), row=3, col=1 )
         fig.add_trace(  go.Scatter ( x = blocks, y = yy_dividends, name="dividends".format(uid)), row=3, col=2 )
-        fig.update_layout(template='plotly_dark_custom')
-        fig.update_layout( title_text="UID:{}".format(selected_uids) )
+        
+    fig.update_layout(template='plotly_dark_custom')
+    fig.update_layout( title_text="UID:{}".format(selected_uids) )
 
         #fig.update_layout( transition_duration=500 )
     return fig

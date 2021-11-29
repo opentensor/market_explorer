@@ -23,9 +23,11 @@ def load_graph_file( filename ):
             })
         frames[block] = dataframe
 
+
+block_step = 1000
 sub = bittensor.subtensor()
 all_files = os.listdir(os.path.expanduser('~/data'))
-block_range = [ block for block in range( 0, sub.get_current_block(), 1000 ) ]
+block_range = [ block for block in range( 0, sub.get_current_block(), block_step ) ]
 with ThreadPoolExecutor(max_workers=100) as executor:
     for block in tqdm( block_range ):
         block_filename = 'nakamoto-{}'.format( block ) 

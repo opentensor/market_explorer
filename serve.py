@@ -76,16 +76,16 @@ def update_uid_to_incentive ( selected_block ):
             closest_index = val
         else:
             break
-    filtered_df = df[ closest_index ]
+    df = df[ closest_index ]
 
     fig = make_subplots(rows=2, cols=3)
     fig.update_layout(title_text="Block:{}".format(selected_block))
-    fig.add_trace( go.Scatter ( filtered_df, x="uid", y="stake" ) )
-    fig.add_trace( go.Scatter ( filtered_df, x="uid", y="rank" ) )
-    fig.add_trace( go.Scatter ( filtered_df, x="uid", y="trust" ) )
-    fig.add_trace( go.Scatter ( filtered_df, x="uid", y="consensus" ) )
-    fig.add_trace( go.Scatter ( filtered_df, x="uid", y="incentive" ) )
-    fig.add_trace( go.Scatter ( filtered_df, x="uid", y="dividends" ) )
+    fig.add_trace( go.Scatter ( x=df["uid"], y=df"stake"] ) )
+    fig.add_trace( go.Scatter ( x=df["uid"], y=df"rank"] ) )
+    fig.add_trace( go.Scatter ( x=df["uid"], y=df"trust"] ) )
+    fig.add_trace( go.Scatter ( x=df["uid"], y=df"consensus"] ) )
+    fig.add_trace( go.Scatter ( x=df["uid"], y=df"incentive"] ) )
+    fig.add_trace( go.Scatter ( x=df["uid"], y=df"dividends"] ) )
     fig.update_layout( transition_duration=500 )
     return fig
 

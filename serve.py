@@ -23,7 +23,7 @@ n_neurons_fig.update_layout(
         rangeslider=dict(
             visible=True
         ),
-        type="block"
+        type="linear"
     )
 )
 

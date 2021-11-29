@@ -96,7 +96,7 @@ def update_incentive_over_time ( selected_uid ):
     consensus = [ block['consensus'][selected_uid] for block in df ]
 
     # Get sorted data.
-    xx = [x for x, _ in sorted(zip(x, incentive))]
+    blocks = [x for x, _ in sorted(zip(x, incentive))]
     yy_stake = [y for _, y in sorted(zip(x, stake))]
     yy_rank = [y for _, y in sorted(zip(x, rank))]
     yy_trust = [y for _, y in sorted(zip(x, trust))]
@@ -108,15 +108,27 @@ def update_incentive_over_time ( selected_uid ):
     fig = make_subplots(rows=2, cols=3)
     # fig.add_trace( px.line( x=xx, y=yy_stake, template='plotly_dark', markers=True, title="Stake @ uid: {}".format( selected_uid ), labels=dict(x="block", y="stake") ), row=1, col=1 )
     # fig.update_layout(height=600, width=800, title_text="Side By Side Subplots")
+    fig.add_trace(  go.Scatter ( x = blocks, y = yy_stake), row=1, col=1 )
+    fig.add_trace(  go.Scatter ( x = blocks, y = yy_rank), row=1, col=2 )
+    fig.add_trace(  go.Scatter ( x = blocks, y = yy_trust), row=1, col=3 )
+    fig.add_trace(  go.Scatter ( x = blocks, y = yy_conensus), row=2, col=1 )
+    fig.add_trace(  go.Scatter ( x = blocks, y = yy_incentive), row=2, col=2 )
+    fig.add_trace(  go.Scatter ( x = blocks, y = yy_dividends), row=2, col=3 )
 
+    # fig.add_trace( px.line( x=xx, y=yy_rank, template='plotly_dark', markers=True, title="Rank @ uid: {}".format( selected_uid ), labels=dict(x="block", y="rank") ), row=1, col=2 )
+    # fig.add_trace( px.line( x=xx, y=yy_trust, template='plotly_dark', markers=True, title="Trust @ uid: {}".format( selected_uid ), labels=dict(x="block", y="trust") ), row=1, col=3 )
+    # fig.add_trace( px.line( x=xx, y=yy_conensus, template='plotly_dark', markers=True, title="Consensus @ uid: {}".format( selected_uid ), labels=dict(x="block", y="consensus") ), row=2, col=1 )
+    # fig.add_trace( px.line( x=xx, y=yy_incentive, template='plotly_dark', markers=True, title="Incentive @ uid: {}".format( selected_uid ), labels=dict(x="block", y="incentive") ), row=2, col=2 )
+    # fig.add_trace( px.line( x=xx, y=yy_dividends, template='plotly_dark', markers=True, title="Dividends @ uid: {}".format( selected_uid ), labels=dict(x="block", y="dividends") ), row=2, col=3 )
+    
     # Build scatters.
-    fig.add_trace( px.line( x=xx, y=yy_stake, template='plotly_dark', markers=True, title="Stake @ uid: {}".format( selected_uid ), labels=dict(x="block", y="stake") ), row=1, col=1 )
-    fig.add_trace( px.line( x=xx, y=yy_rank, template='plotly_dark', markers=True, title="Rank @ uid: {}".format( selected_uid ), labels=dict(x="block", y="rank") ), row=1, col=2 )
-    fig.add_trace( px.line( x=xx, y=yy_trust, template='plotly_dark', markers=True, title="Trust @ uid: {}".format( selected_uid ), labels=dict(x="block", y="trust") ), row=1, col=3 )
-    fig.add_trace( px.line( x=xx, y=yy_conensus, template='plotly_dark', markers=True, title="Consensus @ uid: {}".format( selected_uid ), labels=dict(x="block", y="consensus") ), row=2, col=1 )
-    fig.add_trace( px.line( x=xx, y=yy_incentive, template='plotly_dark', markers=True, title="Incentive @ uid: {}".format( selected_uid ), labels=dict(x="block", y="incentive") ), row=2, col=2 )
-    fig.add_trace( px.line( x=xx, y=yy_dividends, template='plotly_dark', markers=True, title="Dividends @ uid: {}".format( selected_uid ), labels=dict(x="block", y="dividends") ), row=2, col=3 )
-    # fig.add_trace( px.line( x=xx, y=yy_emission, template='plotly_dark', markers=True, title="Emission @ uid: {}".format( selected_uid ), labels=dict(x="block", y="emission") ), row=1, col=1 )
+    # fig.add_trace( px.line( x=xx, y=yy_stake, template='plotly_dark', markers=True, title="Stake @ uid: {}".format( selected_uid ), labels=dict(x="block", y="stake") ), row=1, col=1 )
+    # fig.add_trace( px.line( x=xx, y=yy_rank, template='plotly_dark', markers=True, title="Rank @ uid: {}".format( selected_uid ), labels=dict(x="block", y="rank") ), row=1, col=2 )
+    # fig.add_trace( px.line( x=xx, y=yy_trust, template='plotly_dark', markers=True, title="Trust @ uid: {}".format( selected_uid ), labels=dict(x="block", y="trust") ), row=1, col=3 )
+    # fig.add_trace( px.line( x=xx, y=yy_conensus, template='plotly_dark', markers=True, title="Consensus @ uid: {}".format( selected_uid ), labels=dict(x="block", y="consensus") ), row=2, col=1 )
+    # fig.add_trace( px.line( x=xx, y=yy_incentive, template='plotly_dark', markers=True, title="Incentive @ uid: {}".format( selected_uid ), labels=dict(x="block", y="incentive") ), row=2, col=2 )
+    # fig.add_trace( px.line( x=xx, y=yy_dividends, template='plotly_dark', markers=True, title="Dividends @ uid: {}".format( selected_uid ), labels=dict(x="block", y="dividends") ), row=2, col=3 )
+    # # fig.add_trace( px.line( x=xx, y=yy_emission, template='plotly_dark', markers=True, title="Emission @ uid: {}".format( selected_uid ), labels=dict(x="block", y="emission") ), row=1, col=1 )
 
     return fig
 

@@ -92,8 +92,8 @@ def update_incentive_over_time ( selected_uid ):
     fig.add_trace(  go.Scatter ( x = blocks, y = yy_incentive, name="incentive"), row=3, col=1 )
     fig.add_trace(  go.Scatter ( x = blocks, y = yy_dividends, name="dividends"), row=3, col=2 )
     fig.update_layout(template='plotly_dark')
-    fig.update_layout( transition_duration=500 )
-    fig.update_layout(title_text="UID:{}".format(selected_uid))
+    fig.update_layout( title_text="UID:{}".format(selected_uid) )
+    #fig.update_layout( transition_duration=500 )
     return fig
 
 @app.callback(
@@ -117,8 +117,8 @@ def update_uid_to_incentive ( selected_block ):
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["incentive"], name="incentive" ),  row=3, col=1  )
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["dividends"], name="dividends" ), row=3, col=2  )
     fig.update_layout(template='plotly_dark')
-    fig.update_layout( transition_duration=500 )
-    fig.update_layout(title_text="Block:{}".format(selected_block))
+    fig.update_layout( title_text="Block:{}".format(selected_block) )
+    #fig.update_layout( transition_duration=500 )
     return fig
 
 if __name__ == '__main__':

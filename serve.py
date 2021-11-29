@@ -104,7 +104,7 @@ def update_incentive_over_time ( selected_uid ):
     # Get sorted data.
     xx = [x for x, _ in sorted(zip(x, incentive))]
     yy_stake = [y for _, y in sorted(zip(x, stake))]
-    yy_rank = [y for _, y in sorted(zip(x, stake))]
+    yy_rank = [y for _, y in sorted(zip(x, rank))]
     yy_trust = [y for _, y in sorted(zip(x, trust))]
     yy_conensus = [y for _, y in sorted(zip(x, consensus))]
     yy_incentive = [y for _, y in sorted(zip(x, incentive))]

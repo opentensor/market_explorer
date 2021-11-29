@@ -65,29 +65,6 @@ app.layout = html.Div(
     ]
 )
 
-@app.callback(
-    Output('uid_to_values', 'figure'),
-    Input('uid_to_values_slider', 'value')
-)
-def update_uid_to_incentive ( selected_block ):
-    closest_index = list(df.index)[0]
-    for val in list(df.index):
-        if val <= selected_block:
-            closest_index = val
-        else:
-            break
-    df = df[ closest_index ]
-
-    fig = make_subplots(rows=2, cols=3)
-    fig.update_layout(title_text="Block:{}".format(selected_block))
-    fig.add_trace( go.Scatter ( x=df["uid"], y=df["stake"] ) )
-    fig.add_trace( go.Scatter ( x=df["uid"], y=df["rank"] ) )
-    fig.add_trace( go.Scatter ( x=df["uid"], y=df["trust"] ) )
-    fig.add_trace( go.Scatter ( x=df["uid"], y=df["consensus"] ) )
-    fig.add_trace( go.Scatter ( x=df["uid"], y=df["incentive"] ) )
-    fig.add_trace( go.Scatter ( x=df["uid"], y=df["dividends"] ) )
-    fig.update_layout( transition_duration=500 )
-    return fig
 
 @app.callback(
     Output('values_over_time', 'figure'),
@@ -123,6 +100,30 @@ def update_incentive_over_time ( selected_uid ):
     fig.add_trace(  go.Scatter ( x = blocks, y = yy_dividends), row=2, col=3 )
     fig.update_layout(template='plotly_dark')
 
+    return fig
+
+@app.callback(
+    Output('uid_to_values', 'figure'),
+    Input('uid_to_values_slider', 'value')
+)
+def update_uid_to_incentive ( selected_block ):
+    closest_index = list(df.index)[0]
+    for val in list(df.index):
+        if val <= selected_block:
+            closest_index = val
+        else:
+            break
+    df_filter = df[ closest_index ]
+
+    fig = make_subplots(rows=2, cols=3)
+    fig.update_layout(title_text="Block:{}".format(selected_block))
+    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["stake"] ) )
+    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["rank"] ) )
+    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["trust"] ) )
+    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["consensus"] ) )
+    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["incentive"] ) )
+    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["dividends"] ) )
+    fig.update_layout( transition_duration=500 )
     return fig
 
 if __name__ == '__main__':

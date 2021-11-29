@@ -34,7 +34,7 @@ n_neurons_fig.update_layout(
 )
 app.layout = html.Div(
     className = "page",
-    style = {'backgroundColor': '#000000' },
+    style = {'backgroundColor': '#000000', 'height':'100%', 'width':'100%' },
     children = [
         html.Div(
             html.Img(src=app.get_asset_url('tau.png'), style={'height':'3%', 'width':'3%'}),

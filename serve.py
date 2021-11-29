@@ -19,10 +19,7 @@ n_neurons_fig = go.Figure()
 n_neurons_fig.add_trace( 
     go.Scatter ( 
         x = blocks, 
-        y = n_neurons, 
-        markers=True, 
-        labels=dict(x="block", y="n"),
-        title="Neurons",
+        y = n_neurons
     )
 )
 n_neurons_fig.update_layout(template='plotly_dark')

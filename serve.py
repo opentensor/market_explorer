@@ -108,7 +108,7 @@ def update_uid_to_incentive ( selected_block ):
             break
     df_filter = df[ closest_index ]
 
-    fig = make_subplots(rows=2, cols=3)
+    fig = make_subplots(rows=3, cols=2)
     fig.update_layout(title_text="Block:{}".format(selected_block))
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["stake"], name="stake"),  row=1, col=1  )
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["rank"], name="rank"),  row=1, col=2  )

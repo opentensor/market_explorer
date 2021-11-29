@@ -11,6 +11,7 @@ df = pd.read_pickle( os.path.expanduser('~/data/all_blocks.pd') )
 app = dash.Dash(__name__)
 
 app.layout = html.Div(
+    className = "page",
     style = {'backgroundColor': 'black'},
     children = [
         dcc.Graph( id='uid_to_incentive') ,

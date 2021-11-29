@@ -17,7 +17,7 @@ n_neurons = [ len(d) for d in df ]
 
 n_neurons_fig = go.Figure()
 n_neurons_fig.add_trace( 
-    px.line( 
+    go.Scatter ( 
         x = blocks, 
         y = n_neurons, 
         template='plotly_dark', 
@@ -26,6 +26,7 @@ n_neurons_fig.add_trace(
         title="Neurons",
     )
 )
+n_neurons_fig.update_layout(template='plotly_dark')
 n_neurons_fig.update_layout(title_text="N/block")
 n_neurons_fig.update_layout(
     xaxis=dict (

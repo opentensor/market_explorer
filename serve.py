@@ -19,9 +19,10 @@ print (plotly_template)
 pio.templates["plotly_dark_custom"] = pio.templates["plotly_dark"]
 
 pio.templates["plotly_dark_custom"].update({
-#e.g. you want to change the background to transparent
-'paper_bgcolor': 'rgba(0,0,0,0)',
-'plot_bgcolor': 'rgba(0,0,0,0)'
+    'layout': {
+        'paper_bgcolor': '#000000', 
+        'plot_bgcolor': '#000000'
+    }
 })
 
 df = pd.read_pickle( os.path.expanduser('~/data/all_blocks.pd') )

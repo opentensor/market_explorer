@@ -44,7 +44,9 @@ app.layout = html.Div(
             value = 0,
             style = {'backgroundColor': '#000000' }
         ),
-        dcc.Graph(id='incentive_over_time'),
+        dcc.Graph( id='incentive_over_time' ),
+        dcc.Graph( id='stake_over_time' ),
+
         dcc.Graph( id='uid_to_incentive' ),
         dcc.Slider(
             id='uid_to_incentive_slider',
@@ -69,20 +71,28 @@ def update_uid_to_incentive ( selected_block ):
         else:
             break
     filtered_df = df[ closest_index ]
-    fig = px.scatter( filtered_df, x="uid", y="incentive", template='plotly_dark', marginal_y="histogram", title="Incentive @ block:{}".format( selected_block ), labels=dict(x="uid", y="incentive") )
+    fig = px.scatter( filtered_df, x="uid", y="incentive", template='plotly_dark', title="Incentive @ block:{}".format( selected_block ), labels=dict(x="uid", y="incentive") )
     fig.update_layout( transition_duration=500 )
     return fig
 
 @app.callback(
-    Output('incentive_over_time', 'figure'),
+    [Output('incentive_over_time', 'figure'), Output('stake_over_time', 'figure')],
     Input('uid_dropdown', 'value')
 )
 def update_incentive_over_time ( selected_uid ):
     x = list(df.index)
-    y = [ block['incentive'][selected_uid] for block in df ]
-    xx = [x for x, _ in sorted(zip(x, y))]
-    yy = [y for _, y in sorted(zip(x, y))]
-    return px.line( x=xx, y=yy, template='plotly_dark', markers=True, title="Incentive @ uid: {}".format( selected_uid ), labels=dict(x="block", y="incentive") )
+    incentive = [ block['incentive'][selected_uid] for block in df ]
+    stake = [ block['stake'][selected_uid] for block in df ]
+
+    # Get sorted data.
+    xx = [x for x, _ in sorted(zip(x, incentive))]
+    yy_incentive = [y for _, y in sorted(zip(x, incentive))]
+    yy_stake = [y for _, y in sorted(zip(x, stake))]
+
+    # Build scatters.
+    incentive_over_time = px.line( x=xx, y=yy_incentive, template='plotly_dark', markers=True, title="Incentive @ uid: {}".format( selected_uid ), labels=dict(x="block", y="incentive") )
+    stake_over_time = px.line( x=xx, y=yy_stake, template='plotly_dark', markers=True, title="Stake @ uid: {}".format( selected_uid ), labels=dict(x="block", y="stake") )
+    return incentive_over_time, stake_over_time
 
 if __name__ == '__main__':
     app.run_server(host = '0.0.0.0', debug=True)

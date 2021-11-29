@@ -117,12 +117,13 @@ def update_uid_to_incentive ( selected_block ):
 
     fig = make_subplots(rows=2, cols=3)
     fig.update_layout(title_text="Block:{}".format(selected_block))
-    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["stake"] ) )
-    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["rank"] ) )
-    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["trust"] ) )
-    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["consensus"] ) )
-    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["incentive"] ) )
-    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["dividends"] ) )
+    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["stake"] ),  row=1, col=1  )
+    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["rank"] ),  row=1, col=2  )
+    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["trust"] ),  row=1, col=3  )
+    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["consensus"] ),  row=2, col=1  )
+    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["incentive"] ),  row=2, col=2  )
+    fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["dividends"] ), row=2, col=3  )
+    fig.update_layout(template='plotly_dark')
     fig.update_layout( transition_duration=500 )
     return fig
 

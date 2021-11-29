@@ -31,24 +31,18 @@ n_neurons_fig.update_layout(
         type="linear"
     )
 )
-
 app.layout = html.Div(
     className = "page",
-    style = {'backgroundColor': '#111111' },
+    style = {'backgroundColor': '#000000' },
     children = [
         html.Div(
-            html.Img(
-                src=app.get_asset_url(
-                    "assets/tau_inverted.png"
-                ),
-                className="tau",
-            )
+            html.Img(src=app.get_asset_url('tau.png'), style={'height':'3%', 'width':'3%'}),
         ),
         dcc.Dropdown(
             id = 'uid_dropdown',
             options = [ {'label':str(int(u)), 'value': int(u)} for u in list(df[df.index.max()].uid) ],
             value = 0,
-            style = {'backgroundColor': '#111111' }
+            style = {'backgroundColor': '#000000' }
         ),
         dcc.Graph(id='incentive_over_time'),
         dcc.Graph( id='uid_to_incentive' ),

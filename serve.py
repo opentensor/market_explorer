@@ -28,6 +28,7 @@ pio.templates["plotly_dark_custom"].update({
 df = pd.read_pickle( os.path.expanduser('~/data/all_blocks.pd') )
 df = df.sort_index()
 app = dash.Dash(__name__)
+app.title = 'nakamoto'
 
 blocks = list(df.index)
 n_active_neurons = [ d.active.sum() for d in df ]

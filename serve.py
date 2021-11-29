@@ -22,7 +22,7 @@ n_neurons_fig.add_trace(
     )
 )
 n_neurons_fig.update_layout(template='plotly_dark')
-n_neurons_fig.update_layout(title_text="N/block")
+n_neurons_fig.update_layout(title_text="Active/block")
 n_neurons_fig.update_layout(
     xaxis=dict (
         rangeslider=dict(

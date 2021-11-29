@@ -46,7 +46,6 @@ app.layout = html.Div(
             style = {'backgroundColor': '#000000' }
         ),
         dcc.Graph( id='values_over_time', style={'width': '100%', 'height': '50%'}),
-        dcc.Graph( id='uid_to_values', style={'width': '100%', 'height': '50%'}),
         dcc.Slider(
             id='uid_to_values_slider',
             min = df.index.min(),
@@ -55,6 +54,7 @@ app.layout = html.Div(
             step = 1000,
             tooltip={"placement": "bottom", "always_visible": True},
         ),
+        dcc.Graph( id='uid_to_values', style={'width': '100%', 'height': '50%'}),
         # dcc.Graph( id='block_to_n', figure = n_neurons_fig),
     ]
 )

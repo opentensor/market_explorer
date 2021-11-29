@@ -34,7 +34,7 @@ n_neurons_fig.update_layout(
 
 app.layout = html.Div(
     className = "page",
-    style = {'backgroundColor': 111111},
+    style = {'backgroundColor': '#111111' },
     children = [
         dcc.Graph( id='block_to_n', figure = n_neurons_fig),
         dcc.Graph( id='uid_to_incentive' ),
@@ -50,7 +50,7 @@ app.layout = html.Div(
             id = 'uid_dropdown',
             options = [ {'label':str(int(u)), 'value': int(u)} for u in list(df[df.index.max()].uid) ],
             value = 0,
-            style = {'backgroundColor': 111111}
+            style = {'backgroundColor': '#111111' }
         ),
         dcc.Graph(id='incentive_over_time'),
     ]

@@ -60,6 +60,8 @@ app.layout = html.Div(
             id = 'uid_dropdown',
             options = [ {'label':str(int(u)), 'value': int(u)} for u in list(df[df.index.max()].uid) ],
             value = 0,
+            searchable=True,
+            placeholder="Select a uid",
             style = {'backgroundColor': '#111111' }
         ),
         dcc.Graph( id='values_over_time', style={'width': '100%', 'height': '50%'}),

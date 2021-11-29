@@ -9,6 +9,21 @@ from plotly.subplots import make_subplots
 
 import pandas as pd
 
+# Update themes
+import plotly.graph_objects as go
+import plotly.io as pio
+
+plotly_template = pio.templates["plotly_dark"]
+print (plotly_template)
+
+pio.templates["plotly_dark_custom"] = pio.templates["plotly_dark"]
+
+pio.templates["plotly_dark_custom"].update({
+#e.g. you want to change the background to transparent
+'paper_bgcolor': 'rgba(0,0,0,0)',
+'plot_bgcolor': 'rgba(0,0,0,0)'
+})
+
 df = pd.read_pickle( os.path.expanduser('~/data/all_blocks.pd') )
 df = df.sort_index()
 app = dash.Dash(__name__)
@@ -22,7 +37,7 @@ n_neurons_fig.add_trace(
         y = n_active_neurons
     )
 )
-n_neurons_fig.update_layout(template='plotly_dark')
+n_neurons_fig.update_layout(template='plotly_dark_custom')
 n_neurons_fig.update_layout(title_text="Active/block")
 n_neurons_fig.update_layout(
     xaxis=dict (
@@ -113,7 +128,7 @@ def update_incentive_over_time ( selected_uid ):
     fig.add_trace(  go.Scatter ( x = blocks, y = yy_conensus, name="cosensus"), row=2, col=2 )
     fig.add_trace(  go.Scatter ( x = blocks, y = yy_incentive, name="incentive"), row=3, col=1 )
     fig.add_trace(  go.Scatter ( x = blocks, y = yy_dividends, name="dividends"), row=3, col=2 )
-    fig.update_layout(template='plotly_dark')
+    fig.update_layout(template='plotly_dark_custom')
     fig.update_layout( title_text="UID:{}".format(selected_uid) )
     #fig.update_layout( transition_duration=500 )
     return fig
@@ -138,7 +153,7 @@ def update_uid_to_incentive ( selected_block ):
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["consensus"], name="consensus" ),  row=2, col=2  )
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["incentive"], name="incentive" ),  row=3, col=1  )
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["dividends"], name="dividends" ), row=3, col=2  )
-    fig.update_layout(template='plotly_dark')
+    fig.update_layout(template='plotly_dark_custom')
     fig.update_layout( title_text="Block:{}".format(selected_block) )
     #fig.update_layout( transition_duration=500 )
     return fig

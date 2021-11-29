@@ -52,7 +52,8 @@ app.layout = html.Div(
             min = df.index.min(),
             max = df.index.max(),
             value = df.index.min(),
-            step = 1000
+            step = 1000,
+            tooltip={"placement": "bottom", "always_visible": True},
         ),
         # dcc.Graph( id='block_to_n', figure = n_neurons_fig),
     ]
@@ -84,7 +85,6 @@ def update_incentive_over_time ( selected_uid ):
     # yy_emission = [y for _, y in sorted(zip(x, emission))]
 
     fig = make_subplots(rows=3, cols=2)
-    fig.update_layout(title_text="UID:{}".format(selected_uid))
     fig.add_trace(  go.Scatter ( x = blocks, y = yy_stake, name="stake"), row=1, col=1 )
     fig.add_trace(  go.Scatter ( x = blocks, y = yy_rank, name="rank"), row=1, col=2 )
     fig.add_trace(  go.Scatter ( x = blocks, y = yy_trust, name="trust"), row=2, col=1 )
@@ -93,6 +93,7 @@ def update_incentive_over_time ( selected_uid ):
     fig.add_trace(  go.Scatter ( x = blocks, y = yy_dividends, name="dividends"), row=3, col=2 )
     fig.update_layout(template='plotly_dark')
     fig.update_layout( transition_duration=500 )
+    fig.update_layout(title_text="UID:{}".format(selected_uid))
     return fig
 
 @app.callback(
@@ -109,7 +110,6 @@ def update_uid_to_incentive ( selected_block ):
     df_filter = df[ closest_index ]
 
     fig = make_subplots(rows=3, cols=2)
-    fig.update_layout(title_text="Block:{}".format(selected_block))
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["stake"], name="stake"),  row=1, col=1  )
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["rank"], name="rank"),  row=1, col=2  )
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["trust"], name="trust" ),  row=2, col=1  )
@@ -118,6 +118,7 @@ def update_uid_to_incentive ( selected_block ):
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["dividends"], name="dividends" ), row=3, col=2  )
     fig.update_layout(template='plotly_dark')
     fig.update_layout( transition_duration=500 )
+    fig.update_layout(title_text="Block:{}".format(selected_block))
     return fig
 
 if __name__ == '__main__':

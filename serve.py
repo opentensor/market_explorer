@@ -110,7 +110,7 @@ def update_incentive_over_time ( selected_uids ):
     if type(selected_uids) != list:
         selected_uids = [selected_uids]
 
-    fig = make_subplots(rows=6, cols=1, horizontal_spacing = 3)
+    fig = make_subplots(rows=6, cols=1, horizontal_spacing = 1)
     for uid in selected_uids:
         x = list(df.index)
         incentive = [ block['incentive'][uid] for block in df ]
@@ -157,7 +157,7 @@ def update_uid_to_incentive ( selected_block ):
             break
     df_filter = df[ closest_index ]
 
-    fig = make_subplots(rows=6, cols=1, horizontal_spacing = 3)
+    fig = make_subplots(rows=6, cols=1, horizontal_spacing = 1)
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["stake"], name="stake"),  row=1, col=1  )
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["rank"], name="rank"),  row=2, col=1  )
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["trust"], name="trust" ),  row=3, col=1  )

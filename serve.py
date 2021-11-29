@@ -61,6 +61,7 @@ app.layout = html.Div(
             options = [ {'label':str(int(u)), 'value': int(u)} for u in list(df[df.index.max()].uid) ],
             value = 0,
             searchable=True,
+            multi=True,
             placeholder="Select a uid",
             style = {'backgroundColor': '#111111' }
         ),
@@ -106,6 +107,7 @@ app.layout = html.Div(
     Input('uid_dropdown', 'value')
 )
 def update_incentive_over_time ( selected_uid ):
+    print (selected_uid)
     x = list(df.index)
     incentive = [ block['incentive'][selected_uid] for block in df ]
     stake = [ block['stake'][selected_uid] for block in df ]

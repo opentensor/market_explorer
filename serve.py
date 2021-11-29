@@ -45,8 +45,8 @@ app.layout = html.Div(
             value = 0,
             style = {'backgroundColor': '#000000' }
         ),
-        dcc.Graph( id='values_over_time' ),
-        dcc.Graph( id='uid_to_values' ),
+        dcc.Graph( id='values_over_time', style={'width': '100%', 'height': '50%'}),
+        dcc.Graph( id='uid_to_values', style={'width': '100%', 'height': '50%'}),
         dcc.Slider(
             id='uid_to_values_slider',
             min = df.index.min(),

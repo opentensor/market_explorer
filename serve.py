@@ -13,13 +13,12 @@ df = df.sort_index()
 app = dash.Dash(__name__)
 
 blocks = list(df.index)
-n_neurons = [ len(d) for d in df ]
-
+n_active_neurons = [ d.active.sum() for d in df ]
 n_neurons_fig = go.Figure()
 n_neurons_fig.add_trace( 
     go.Scatter ( 
         x = blocks, 
-        y = n_neurons
+        y = n_active_neurons
     )
 )
 n_neurons_fig.update_layout(template='plotly_dark')

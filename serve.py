@@ -54,7 +54,7 @@ app.layout = html.Div(
             value = df.index.min(),
             step = 1000
         ),
-        dcc.Graph( id='block_to_n', figure = n_neurons_fig),
+        # dcc.Graph( id='block_to_n', figure = n_neurons_fig),
     ]
 )
 

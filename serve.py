@@ -106,37 +106,41 @@ app.layout = html.Div(
     Output('values_over_time', 'figure'),
     Input('uid_dropdown', 'value')
 )
-def update_incentive_over_time ( selected_uid ):
-    print (selected_uid)
-    x = list(df.index)
-    incentive = [ block['incentive'][selected_uid] for block in df ]
-    stake = [ block['stake'][selected_uid] for block in df ]
-    trust = [ block['trust'][selected_uid] for block in df ]
-    rank = [ block['rank'][selected_uid] for block in df ]
-    dividends = [ block['dividends'][selected_uid] for block in df ]
-    # emission = [ block['emission'][selected_uid] for block in df ]
-    consensus = [ block['consensus'][selected_uid] for block in df ]
+def update_incentive_over_time ( selected_uids ):
+    if type(selected_uids) != list:
+        selected_uids = [selected_uids]
 
-    # Get sorted data.
-    blocks = [x for x, _ in sorted(zip(x, incentive))]
-    yy_stake = [y for _, y in sorted(zip(x, stake))]
-    yy_rank = [y for _, y in sorted(zip(x, rank))]
-    yy_trust = [y for _, y in sorted(zip(x, trust))]
-    yy_conensus = [y for _, y in sorted(zip(x, consensus))]
-    yy_incentive = [y for _, y in sorted(zip(x, incentive))]
-    yy_dividends = [y for _, y in sorted(zip(x, dividends))]
-    # yy_emission = [y for _, y in sorted(zip(x, emission))]
+    for uid in selected_uids:
+        x = list(df.index)
+        incentive = [ block['incentive'][uid] for block in df ]
+        stake = [ block['stake'][uid] for block in df ]
+        trust = [ block['trust'][uid] for block in df ]
+        rank = [ block['rank'][uid] for block in df ]
+        dividends = [ block['dividends'][uid] for block in df ]
+        # emission = [ block['emission'][selected_uid] for block in df ]
+        consensus = [ block['consensus'][uid] for block in df ]
 
-    fig = make_subplots(rows=3, cols=2)
-    fig.add_trace(  go.Scatter ( x = blocks, y = yy_stake, name="stake"), row=1, col=1 )
-    fig.add_trace(  go.Scatter ( x = blocks, y = yy_rank, name="rank"), row=1, col=2 )
-    fig.add_trace(  go.Scatter ( x = blocks, y = yy_trust, name="trust"), row=2, col=1 )
-    fig.add_trace(  go.Scatter ( x = blocks, y = yy_conensus, name="cosensus"), row=2, col=2 )
-    fig.add_trace(  go.Scatter ( x = blocks, y = yy_incentive, name="incentive"), row=3, col=1 )
-    fig.add_trace(  go.Scatter ( x = blocks, y = yy_dividends, name="dividends"), row=3, col=2 )
-    fig.update_layout(template='plotly_dark_custom')
-    fig.update_layout( title_text="UID:{}".format(selected_uid) )
-    #fig.update_layout( transition_duration=500 )
+        # Get sorted data.
+        blocks = [x for x, _ in sorted(zip(x, incentive))]
+        yy_stake = [y for _, y in sorted(zip(x, stake))]
+        yy_rank = [y for _, y in sorted(zip(x, rank))]
+        yy_trust = [y for _, y in sorted(zip(x, trust))]
+        yy_conensus = [y for _, y in sorted(zip(x, consensus))]
+        yy_incentive = [y for _, y in sorted(zip(x, incentive))]
+        yy_dividends = [y for _, y in sorted(zip(x, dividends))]
+        # yy_emission = [y for _, y in sorted(zip(x, emission))]
+
+        fig = make_subplots(rows=3, cols=2)
+        fig.add_trace(  go.Scatter ( x = blocks, y = yy_stake, name="stake-{}".format(uid)), row=1, col=1 )
+        fig.add_trace(  go.Scatter ( x = blocks, y = yy_rank, name="rank".format(uid)), row=1, col=2 )
+        fig.add_trace(  go.Scatter ( x = blocks, y = yy_trust, name="trust".format(uid)), row=2, col=1 )
+        fig.add_trace(  go.Scatter ( x = blocks, y = yy_conensus, name="cosensus".format(uid)), row=2, col=2 )
+        fig.add_trace(  go.Scatter ( x = blocks, y = yy_incentive, name="incentive".format(uid)), row=3, col=1 )
+        fig.add_trace(  go.Scatter ( x = blocks, y = yy_dividends, name="dividends".format(uid)), row=3, col=2 )
+        fig.update_layout(template='plotly_dark_custom')
+        fig.update_layout( title_text="UID:{}".format(selected_uids) )
+
+        #fig.update_layout( transition_duration=500 )
     return fig
 
 @app.callback(

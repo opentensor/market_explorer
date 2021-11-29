@@ -20,8 +20,8 @@ pio.templates["plotly_dark_custom"] = pio.templates["plotly_dark"]
 
 pio.templates["plotly_dark_custom"].update({
     'layout': {
-        'paper_bgcolor': '#000000', 
-        'plot_bgcolor': '#000000'
+        'paper_bgcolor': '#111111', 
+        'plot_bgcolor': '#111111'
     }
 })
 
@@ -50,16 +50,16 @@ n_neurons_fig.update_layout(
 )
 app.layout = html.Div(
     className = "page",
-    style = {'backgroundColor': '#000000', 'height':'100%', 'width':'100%' },
+    style = {'backgroundColor': '#111111', 'height':'100%', 'width':'100%' },
     children = [
         html.Div(
-            html.Img(src=app.get_asset_url('tau.png'), style={'height':'3%', 'width':'3%'}),
+            html.Img(src=app.get_asset_url('gray_tau.png'), style={'height':'3%', 'width':'3%'}),
         ),
         dcc.Dropdown(
             id = 'uid_dropdown',
             options = [ {'label':str(int(u)), 'value': int(u)} for u in list(df[df.index.max()].uid) ],
             value = 0,
-            style = {'backgroundColor': '#000000' }
+            style = {'backgroundColor': '#111111' }
         ),
         dcc.Graph( id='values_over_time', style={'width': '100%', 'height': '50%'}),
         dcc.Slider(

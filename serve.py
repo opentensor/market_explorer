@@ -14,7 +14,7 @@ import plotly.graph_objects as go
 import plotly.io as pio
 
 plotly_template = pio.templates["plotly_dark"]
-print (plotly_template)
+# print (plotly_template)
 
 pio.templates["plotly_dark_custom"] = pio.templates["plotly_dark"]
 
@@ -53,7 +53,7 @@ app.layout = html.Div(
     style = {'backgroundColor': '#111111', 'height':'100%', 'width':'100%' },
     children = [
         html.Div(
-            html.Img(src=app.get_asset_url('gray_tau.png'), style={'height':'3%', 'width':'3%'}),
+            html.Img(src=app.get_asset_url('tau_gray.png'), style={'height':'3%', 'width':'3%'}),
         ),
         dcc.Dropdown(
             id = 'uid_dropdown',

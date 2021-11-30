@@ -6,27 +6,15 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-
 import pandas as pd
-
 # Update themes
 import plotly.graph_objects as go
 import plotly.io as pio
 
-# plotly_template = pio.templates["plotly_dark"]
-# print (plotly_template)
-# pio.templates["plotly_dark_custom"] = pio.templates["plotly_white"]
-# pio.templates["plotly_dark_custom"].update({
-#     'layout': {
-#         'paper_bgcolor': '#111111', 
-#         'plot_bgcolor': '#111111'
-#     }
-# })
-
 df = pd.read_pickle( os.path.expanduser('~/data/all_blocks.pd') )
 df = df.sort_index()
 app = dash.Dash(__name__)
-app.title = 'nakamoto'
+app.title = 'nakamoto-map'
 
 blocks = list(df.index)
 n_active_neurons = [ d.active.sum() for d in df ]
@@ -37,7 +25,7 @@ n_neurons_fig.add_trace(
         y = n_active_neurons
     )
 )
-n_neurons_fig.update_layout(template='plotly_white')
+n_neurons_fig.update_layout(template='plotly_dark_custom')
 n_neurons_fig.update_layout(title_text="Active/block")
 n_neurons_fig.update_layout(
     xaxis=dict (
@@ -49,10 +37,10 @@ n_neurons_fig.update_layout(
 )
 app.layout = html.Div(
     className = "page",
-    style = {'backgroundColor': '#FFFFFF', 'height':'100%', 'width':'100%' },
+    style = {'backgroundColor': '#111111', 'height':'100%', 'width':'100%' },
     children = [
         html.Div(
-            html.Img(src=app.get_asset_url('tau.png'), style={'height':'3%', 'width':'3%'}),
+            html.Img(src=app.get_asset_url('tau_gray.png'), style={'height':'3%', 'width':'3%'}),
         ),
         dcc.Dropdown(
             id = 'uid_dropdown',
@@ -61,7 +49,7 @@ app.layout = html.Div(
             searchable=True,
             multi=True,
             placeholder="Select a uid",
-            style = {'backgroundColor': '#FFFFFF' }
+            style = {'backgroundColor': '#111111' }
         ),
         dcc.Graph( id='values_over_time', style={'width': '100%', 'height': '50%'}),
         dcc.Slider(
@@ -136,7 +124,7 @@ def update_incentive_over_time ( selected_uids ):
         fig.add_trace(  go.Scatter ( x = blocks, y = yy_incentive, name="incentive:{}".format(uid)), row=3, col=1 )
         fig.add_trace(  go.Scatter ( x = blocks, y = yy_dividends, name="dividends:{}".format(uid)), row=3, col=2 )
 
-    fig.update_layout(template='plotly_white')
+    fig.update_layout(template='plotly_dark_custom')
     fig.update_layout( title_text="UID:{}".format(selected_uids) )
 
         #fig.update_layout( transition_duration=500 )
@@ -162,12 +150,11 @@ def update_uid_to_incentive ( selected_block ):
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["consensus"], name="consensus" ),  row=2, col=2  )
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["incentive"], name="incentive" ),  row=3, col=1  )
     fig.add_trace( go.Scatter ( x=df_filter["uid"], y=df_filter["dividends"], name="dividends" ), row=3, col=2  )
-    fig.update_layout( template='plotly_white' )
+    fig.update_layout(template='plotly_dark_custom')
     fig.update_layout( title_text="Block:{}".format(selected_block) )
     #fig.update_layout( transition_duration=500 )
     return fig
 
 if __name__ == '__main__':
-    #app.run_server(host = '0.0.0.0', debug=True)
-    app.run_server( debug=True )
+    app.run_server(host = '0.0.0.0', debug=True)
 

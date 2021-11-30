@@ -8,7 +8,7 @@ frames = {}
 def load_graph_file( filename ):
     block = int(filename.split('-')[1])
     graph = bittensor.metagraph().load_from_path( os.path.expanduser( '~/data/{}'.format(filename) ) )
-    dataframe = pd.DataFrame(columns=['uid', 'active', 'stake','rank','trust', 'consensus', 'incentive', 'dividends', 'emission'], index=graph.uids.tolist())
+    dataframe = pd.DataFrame(columns=['uid', 'active', 'stake','rank','trust', 'consensus', 'incentive', 'dividends', 'emission', 'hotkey', 'coldkey', 'ip', 'port'], index=graph.uids.tolist())
     for uid in graph.uids.tolist():
         dataframe.loc[uid] = pd.Series({
                 'uid':uid, 
@@ -20,9 +20,12 @@ def load_graph_file( filename ):
                 'incentive':graph.I[uid].item(), 
                 'dividends':graph.D[uid].item(), 
                 'emission':graph.E[uid].item(),
-            })
-        frames[block] = dataframe
-
+                'hotkey': str(graph.endpoint_objs[uid].hotkey),
+                'coldkey': str(graph.endpoint_objs[uid].coldkey),
+                'ip': str(graph.endpoint_objs[uid].ip),
+                'port': int(graph.endpoint_objs[uid].port)
+        })
+    frames[block] = dataframe
 
 block_step = 1000
 sub = bittensor.subtensor()
@@ -33,6 +36,10 @@ with ThreadPoolExecutor(max_workers=100) as executor:
         block_filename = 'nakamoto-{}'.format( block ) 
         if block_filename in all_files:
             executor.submit( load_graph_file, block_filename )
+# for block in tqdm( block_range ):
+#     block_filename = 'nakamoto-{}'.format( block ) 
+#     if block_filename in all_files:
+#         load_graph_file( block_filename )
 
 blocks = pd.Series([f for f in frames.values()], index=frames.keys())
 blocks.to_pickle(os.path.expanduser('~/data/all_blocks.pd')) 
